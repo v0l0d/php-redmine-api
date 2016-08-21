@@ -13,6 +13,10 @@ class Project extends AbstractApi
 {
     private $projects = array();
 
+	const NAME = 'name';
+	const IDENTIFIER = 'identifier';
+	const DESCRIPTION = 'description';
+
     /**
      * List projects.
      *
@@ -44,7 +48,7 @@ class Project extends AbstractApi
         }
         $ret = array();
         foreach ($this->projects['projects'] as $e) {
-            $ret[(int) $e['id']] = $e['name'];
+            $ret[(int) $e[self::ID]] = $e['name'];
         }
 
         return $reverse ? array_flip($ret) : $ret;
@@ -126,7 +130,7 @@ class Project extends AbstractApi
     public function update($id, array $params)
     {
         $defaults = array(
-            'id' => $id,
+            self::ID => $id,
             'name' => null,
             'identifier' => null,
             'description' => null,
