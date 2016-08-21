@@ -17,6 +17,20 @@ class Issue extends AbstractApi
     const PRIO_URGENT = 4;
     const PRIO_IMMEDIATE = 5;
 
+	const SUBJECT = 'subject';
+	const DESCRIPTION = 'description';
+	const PROJECT_ID = 'project_id';
+	const CATEGORY_ID = 'category_id';
+	const PRIORITY_ID = 'priority_id';
+	const STATUS_ID = 'status_id';
+	const TRACKER_ID = 'tracker_id';
+	const ASSIGNED_TO_ID = 'assigned_to_id';
+	const AUTHOR_ID = 'author_id';
+	const DUE_DATE = 'due_date';
+	const START_DATE = 'start_date';
+	const WATCHER_USER_IDS = 'watcher_user_ids';
+	const FIXED_VERSION_ID = 'fixed_version_id';
+
     /**
      * List issues.
      *
@@ -118,7 +132,7 @@ class Issue extends AbstractApi
     public function create(array $params = array())
     {
         $defaults = array(
-            'subject' => null,
+            self::SUBJECT => null,
             'description' => null,
             'project_id' => null,
             'category_id' => null,

@@ -11,6 +11,7 @@ use Redmine\Client;
  */
 abstract class AbstractApi
 {
+    const ID = 'id';
     /**
      * The client.
      *
