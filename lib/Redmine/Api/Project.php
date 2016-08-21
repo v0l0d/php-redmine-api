@@ -14,8 +14,8 @@ class Project extends AbstractApi
     private $projects = array();
 
 	const NAME = 'name';
-	const IDENTIFIER = 'identifier';
-	const DESCRIPTION = 'description';
+    const IDENTIFIER = 'identifier';
+    const DESCRIPTION = 'description';
 
     /**
      * List projects.
@@ -48,7 +48,7 @@ class Project extends AbstractApi
         }
         $ret = array();
         foreach ($this->projects['projects'] as $e) {
-            $ret[(int) $e[self::ID]] = $e['name'];
+            $ret[(int) $e[self::ID]] = $e[self::NAME];
         }
 
         return $reverse ? array_flip($ret) : $ret;
@@ -99,15 +99,15 @@ class Project extends AbstractApi
     public function create(array $params = array())
     {
         $defaults = array(
-            'name' => null,
-            'identifier' => null,
-            'description' => null,
+            self::NAME => null,
+            self::IDENTIFIER => null,
+            self::DESCRIPTION => null,
         );
         $params = $this->sanitizeParams($defaults, $params);
 
         if (
-            !isset($params['name'])
-         || !isset($params['identifier'])
+            !isset($params[self::NAME])
+         || !isset($params[self::IDENTIFIER])
         ) {
             throw new \Exception('Missing mandatory parameters');
         }
@@ -131,9 +131,9 @@ class Project extends AbstractApi
     {
         $defaults = array(
             self::ID => $id,
-            'name' => null,
-            'identifier' => null,
-            'description' => null,
+            self::NAME => null,
+            self::IDENTIFIER => null,
+            self::DESCRIPTION => null,
         );
         $params = $this->sanitizeParams($defaults, $params);
 
