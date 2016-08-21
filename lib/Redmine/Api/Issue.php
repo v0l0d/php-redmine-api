@@ -30,6 +30,8 @@ class Issue extends AbstractApi
 	const START_DATE = 'start_date';
 	const WATCHER_USER_IDS = 'watcher_user_ids';
 	const FIXED_VERSION_ID = 'fixed_version_id';
+	const NOTES = 'notes';
+	const PRIVATE_NOTES = 'private_notes';
 
     /**
      * List issues.
@@ -105,7 +107,7 @@ class Issue extends AbstractApi
                         $upload_item->addChild($upload_k, $upload_v);
                     }
                 }
-            } elseif ('description' === $k && strpos($v, '\n') !== false) {
+            } elseif (self::DESCRIPTION === $k && strpos($v, '\n') !== false) {
                 // surround the description with CDATA if there is any '\n' in the description
                 $node = $xml->addChild($k);
                 $domNode = dom_import_simplexml($node);
@@ -133,18 +135,18 @@ class Issue extends AbstractApi
     {
         $defaults = array(
             self::SUBJECT => null,
-            'description' => null,
-            'project_id' => null,
-            'category_id' => null,
-            'priority_id' => null,
-            'status_id' => null,
-            'tracker_id' => null,
-            'assigned_to_id' => null,
-            'author_id' => null,
-            'due_date' => null,
-            'start_date' => null,
-            'watcher_user_ids' => null,
-            'fixed_version_id' => null,
+            self::DESCRIPTION => null,
+            self::PROJECT_ID => null,
+            self::CATEGORY_ID => null,
+            self::PRIORITY_ID => null,
+            self::STATUS_ID => null,
+            self::TRACKER_ID => null,
+            self::ASSIGNED_TO_ID => null,
+            self::AUTHOR_ID => null,
+            self::DUE_DATE => null,
+            self::START_DATE => null,
+            self::WATCHER_USER_IDS => null,
+            self::FIXED_VERSION_ID => null,
         );
         $params = $this->cleanParams($params);
         $params = $this->sanitizeParams($defaults, $params);
@@ -167,16 +169,16 @@ class Issue extends AbstractApi
     public function update($id, array $params)
     {
         $defaults = array(
-            'id' => $id,
-            'subject' => null,
-            'notes' => null,
-            'private_notes' => false,
-            'category_id' => null,
-            'priority_id' => null,
-            'status_id' => null,
-            'tracker_id' => null,
-            'assigned_to_id' => null,
-            'due_date' => null,
+            self::ID => $id,
+            self::SUBJECT => null,
+            self::NOTES => null,
+            self::PRIVATE_NOTES => false,
+            self::CATEGORY_ID => null,
+            self::PRIORITY_ID => null,
+            self::STATUS_ID => null,
+            self::TRACKER_ID => null,
+            self::ASSIGNED_TO_ID => null,
+            self::DUE_DATE => null,
         );
         $params = $this->cleanParams($params);
         $params = $this->sanitizeParams($defaults, $params);
@@ -215,7 +217,7 @@ class Issue extends AbstractApi
         $statusId = $this->client->api('issue_status')->getIdByName($status);
 
         return $this->update($id, array(
-            'status_id' => $statusId,
+            self::STATUS_ID => $statusId,
         ));
     }
 
@@ -244,16 +246,16 @@ class Issue extends AbstractApi
     private function cleanParams(array $params = array())
     {
         if (isset($params['project'])) {
-            $params['project_id'] = $this->client->api('project')->getIdByName($params['project']);
+            $params[self::PROJECT_ID] = $this->client->api('project')->getIdByName($params['project']);
             unset($params['project']);
 
             if (isset($params['category'])) {
-                $params['category_id'] = $this->client->api('issue_category')->getIdByName($params['project_id'], $params['category']);
+                $params[self::CATEGORY_ID] = $this->client->api('issue_category')->getIdByName($params[self::PROJECT_ID], $params['category']);
                 unset($params['category']);
             }
         }
         if (isset($params['status'])) {
-            $params['status_id'] = $this->client->api('issue_status')->getIdByName($params['status']);
+            $params[self::STATUS_ID] = $this->client->api('issue_status')->getIdByName($params['status']);
             unset($params['status']);
         }
         if (isset($params['tracker'])) {
@@ -304,7 +306,7 @@ class Issue extends AbstractApi
     {
         $request = array();
         $request['issue'] = array(
-            'id' => $id,
+            self::ID => $id,
             'uploads' => $attachments,
         );
 
