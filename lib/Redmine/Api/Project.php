@@ -61,6 +61,34 @@ class Project extends AbstractApi
      *
      * @return int|bool
      */
+    public function getIdByIdentifier($identifier)
+    {
+        //add offset to go thru every element in the list (offset, limit)
+        $offset = 0;
+        $total_count = -1;
+        $limit = 100;
+
+        do {
+            $arr = $this->all(array('limit' => $limit, 'offset' => $offset));
+            foreach ($arr['projects'] as $project) {
+                if ($project[self::IDENTIFIER] == $identifier) {
+                    return $project;
+                }
+            }
+            $offset = $arr['offset'] + $limit;
+            $total_count = $arr['total_count'];
+        }while($offset < $total_count);
+
+        return null;
+    }
+
+    /**
+     * Get a project id given its name.
+     *
+     * @param string $name
+     *
+     * @return int|bool
+     */
     public function getIdByName($name)
     {
         $arr = $this->listing();

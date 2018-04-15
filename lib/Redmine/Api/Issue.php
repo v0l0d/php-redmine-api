@@ -20,6 +20,7 @@ class Issue extends AbstractApi
 	const SUBJECT = 'subject';
 	const DESCRIPTION = 'description';
 	const PROJECT_ID = 'project_id';
+	const PARENT_ISSUE_ID = 'parent_issue_id';
 	const CATEGORY_ID = 'category_id';
 	const PRIORITY_ID = 'priority_id';
 	const STATUS_ID = 'status_id';
@@ -32,6 +33,10 @@ class Issue extends AbstractApi
 	const FIXED_VERSION_ID = 'fixed_version_id';
 	const NOTES = 'notes';
 	const PRIVATE_NOTES = 'private_notes';
+	const ESTIMATED_HOURS = 'estimated_hours';
+	const IS_PRIVATE = 'is_private';
+	const CUSTOM_FIELDS = 'custom_fields';
+	const DONE_RATIO = 'done_ratio';
 
     /**
      * List issues.
